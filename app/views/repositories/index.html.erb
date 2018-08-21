@@ -1,9 +1,7 @@
 <% @repos.each do |repo| %>
 <ul>
-  <li><%= repo.name %></li>
+  <li><%= link_to repo.name, repo.url %></li>
   <li><%= repo.description %></li>
   <li><%= repo.url %></li>
-  <li><%= repo.created_at %></li>
-  <li><%= repo.updated_at %></li>
 </ul>
 <% end %>

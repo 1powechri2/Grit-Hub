@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   def show
-    @followers = FollowerPresenter.new.get_followers(current_user.name, current_user.token)
-    @followings = FollowingPresenter.new.get_followings(current_user.name, current_user.token)
+    @followers = FollowerPresenter.new(current_user.name, current_user.token).get_followers
+    @followings = FollowingPresenter.new(current_user.name, current_user.token).get_followings
   end
 end

@@ -1,8 +1,12 @@
 class FollowerPresenter
-  def get_followers(name, token)
-    response = GithubService.new(name, token).connect.get("/users/#{name}/followers?access_token=#{token}")
-    followers = JSON.parse(response.body, symbolize_names: true)
-    followers.map do |follower_data|
+
+  def initialize(name, token)
+    @name  = name
+    @service = GithubService.new(name, token)
+  end
+
+  def get_followers
+    @service.followers_json.map do |follower_data|
       Follower.new(follower_data)
     end
   end

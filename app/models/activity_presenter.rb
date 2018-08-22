@@ -1,8 +1,12 @@
 class ActivityPresenter
-  def self.recent_activities(name, token, repos)
-    raw_data = repo_commits(name, token, repos)
 
-    raw_data.each do |data|
+  def initialize(name, token)
+    @token   = token
+    @service = GithubService.new(name, token)
+  end
+
+  def recent_activities
+    repo_commits.each do |data|
       @commits = data.map do |commit_data|
         Commit.new(commit_data)
       end
@@ -10,10 +14,13 @@ class ActivityPresenter
     @commits
   end
 
-  def self.repo_commits(name, token, repos)
-    repos.map do |repo|
-      response = GithubService.get_api.get("/repos/#{name}/#{repo.name}/commits?access_token=#{token}")
-      commit_data = JSON.parse(response.body, symbolize_names: true)
+  def repo_commits
+    latest_repos.map do |repo|
+      @service.repo_commits_json(repo.name)
     end
+  end
+
+  def latest_repos
+    RepoPresenter.new(@name, @token).most_recent_repositories
   end
 end

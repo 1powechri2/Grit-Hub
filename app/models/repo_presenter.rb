@@ -1,16 +1,22 @@
 class RepoPresenter
-  def self.repositories(token)
-    response = GithubService.get_api.get("/user/repos?access_token=#{token}")
-    repos = JSON.parse(response.body, symbolize_names: true)
+
+  def initialize(name, token)
+    @name = name
+    @service = GithubService.new(name, token)
+  end
+
+  def repos
+    @service.repos_json
+  end
+
+  def repositories
     repos.map do |repo_data|
       Repository.new(repo_data)
     end
   end
 
-  def self.most_recent_repositories(token)
-    recent = self.repositories(token)
-
-    recent.map do |repo|
+  def most_recent_repositories
+    repositories.map do |repo|
       if Date.parse(repo.updated_at) > Date.today - 5
         repo
       end

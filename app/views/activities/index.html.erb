@@ -1,7 +1,7 @@
 <ul>
 <% @recent_activities.each do |activity| %>
-<%= activity.author %>
-<%= activity.message %>
-<%= link_to 'See Commit', activity.url %>
+<li><%= activity.author %></li>
+<li><%= activity.message %></li>
+<li><%= link_to 'See Commit', activity.url %></li>
 <% end %>
 </ul>

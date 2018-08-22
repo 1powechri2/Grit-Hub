@@ -1,5 +1,5 @@
 class RepositoriesController < ApplicationController
   def index
-    @repos = RepoPresenter.repositories(current_user.token)
+    @repos = RepoPresenter.new(current_user.name, current_user.token).repositories
   end
 end

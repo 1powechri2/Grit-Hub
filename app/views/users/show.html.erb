@@ -1,2 +1,10 @@
-<p>Git Hub Username: <%= current_user.name %></p>
 <%= image_tag current_user.pic %>
+<p>Git Hub Username: <%= current_user.name %></p>
+<p>Followers</p>
+<p><% @followers.each do |follower| %>
+<%= link_to follower.login, follower.url %><br>
+<% end %></p>
+<p>Following</p>
+<p><% @followings.each do |following| %>
+<%= link_to following.login, following.url %><br>
+<% end %></p>

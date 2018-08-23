@@ -10,20 +10,20 @@ class GithubService
     end
   end
 
-  def get_repo_commits(name)
-    @get_repo_commits ||= connect.get("/repos/#{@name}/#{name}/commits?access_token=#{@token}")
-  end
-
   def get_repos
     @get_repos ||= connect.get("/user/repos?access_token=#{@token}")
   end
 
+  def get_repo_commits(name)
+    connect.get("/repos/#{@name}/#{name}/commits?access_token=#{@token}")
+  end
+
   def get_followers
-    connect.get("/users/#{@name}/followers?access_token=#{@token}")
+    @get_followers ||= connect.get("/users/#{@name}/followers?access_token=#{@token}")
   end
 
   def get_followings
-    connect.get("/users/#{@name}/following?access_token=#{@token}")
+    @get_followings ||= connect.get("/users/#{@name}/following?access_token=#{@token}")
   end
 
   def repo_commits_json(name)

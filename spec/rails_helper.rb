@@ -5,6 +5,16 @@ require File.expand_path('../../config/environment', __FILE__)
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
+
+def omniauth_stub
+  OmniAuth.config.test_mode = true
+  OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new({'provider' => 'github',
+                  'uid' => '12345',
+                  'info' => {'name' => 'Chris Powell'},
+                  'credentials' => {'token' => ENV['OA_STUB_TOKEN']},
+                  'extra' => {'raw_info' => {'avatar_url' => 'https://avatars1.githubusercontent.com/u/34900620?v=4'
+                  }}})
+end
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in

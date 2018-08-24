@@ -13,6 +13,7 @@
       <% if current_user %>
       <nav>
         <p class='repos'><%= link_to "Repositories", repositories_path %></p>
+        <p class='recent_activity'><%= link_to "Recent Activity", activities_path %></p>
       </nav>
       <% else %>
       <nav></nav>

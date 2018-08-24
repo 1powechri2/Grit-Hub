@@ -1,0 +1,5 @@
+<ul>
+<% @commits.each do |commit| %>
+  <li>Commit Message: <%= commit.message %> Commited by:<%= commit.name %></li>
+<% end %>
+</ul>

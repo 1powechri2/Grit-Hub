@@ -22,6 +22,10 @@ class GithubService
     @get_followings ||= connect.get("/users/#{@name}/following?access_token=#{@token}")
   end
 
+  def get_events
+    @get_events ||= connect.get("/users/#{@name}/events?access_token=#{@token}")
+  end
+
   def repos_json
     JSON.parse(get_repos.body, symbolize_names: true)
   end
@@ -32,5 +36,9 @@ class GithubService
 
   def followings_json
     JSON.parse(get_followings.body, symbolize_names: true)
+  end
+
+  def events_json
+    JSON.parse(get_events.body, symbolize_names: true)
   end
 end

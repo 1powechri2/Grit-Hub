@@ -1,30 +1,32 @@
 class ActivitiesPresenter
   def initialize(name, token)
-    @name = name
+    @service = GithubService.new(name, token)
     @token = token
   end
 
-  def commits
-    call = Faraday.new(url: "https://api.github.com") do |faraday|
-      faraday.adapter Faraday.default_adapter
-    end
+  def event_data
+    @service.events_json
+  end
 
-    response = call.get("/users/#{@name}/events?access_token=#{@token}")
-
-    json = JSON.parse(response.body, symbolize_names: true)
-
-    events = json.map do |event|
+  def collect_event_commit_data
+    event_data.map do |event|
+      if event[:type] == 'PushEvent'
         event[:payload][:commits]
+      end
     end.compact.flatten
+  end
 
-    commit_api_url = events.map do |api_url|
-      CommitUrl.new(api_url)
+  def compile_commit_urls
+    collect_event_commit_data.map do |commit_url|
+      CommitUrl.new(commit_url)
     end
+  end
 
-    commits = commit_api_url.map do |commit_data|
-      data = Faraday.get(commit_data.url)
-      json = JSON.parse(data.body, symbolize_names: true)
-      Commit.new(json)
+  def commits
+    compile_commit_urls.map do |commit_data|
+    data = Faraday.get(commit_data.url)
+    json = JSON.parse(data.body, symbolize_names: true)
+    Commit.new(json)
     end
   end
 end

@@ -16,6 +16,7 @@ describe 'A user visits root, logs in, clicks on recent activity' do
       click_on 'Recent Activity'
 
       expect(current_path).to eq(activities_path)
+      expect(page).to have_content('Chris Powell')
     end
   end
 end
